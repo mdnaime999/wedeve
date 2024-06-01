@@ -31,13 +31,13 @@ class AuthService extends GetxService {
       if (auth.value != null) {
         authenticate.value = true;
       } else {
-        authenticate.value = false;
+        authenticate.value = true;
         auth.value = MLogin();
         ss.db.remove('auth');
       }
     } else {
       // headers.value = HttpHeaderApi();
-      authenticate.value = false;
+      authenticate.value = true;
       auth.value = MLogin();
     }
   }

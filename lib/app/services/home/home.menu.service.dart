@@ -8,11 +8,19 @@ class HomeMenuService extends GetxService {
   RxInt menuIndexOld = 0.obs;
   List<Map<dynamic, dynamic>> menuList = [
     {
-      "icon": "assets/images/vector.svg",
+      "icon": "assets/home-icon.svg",
       "name": "Home"
     },
     {
-      "icon": "assets/images/profile.svg",
+      "icon": "assets/menu-icon.svg",
+      "name": "Menu"
+    },
+    {
+      "icon": "assets/cart-icon.svg",
+      "name": "Cart"
+    },
+    {
+      "icon": "assets/user-icon.svg",
       "name": "Profile"
     },
   ];

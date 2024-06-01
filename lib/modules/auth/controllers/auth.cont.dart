@@ -32,7 +32,7 @@ class AuthController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    // Future.delayed(Duration(seconds: 2)).then((value) => FlutterNativeSplash.remove());
+    Future.delayed(Duration(seconds: 2)).then((value) => FlutterNativeSplash.remove());
   }
 
   // ------------------------------------------ Local login action
