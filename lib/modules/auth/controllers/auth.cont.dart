@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:wedevs/modules/auth/models/login.model.dart';
 // ignore: unused_import
 import 'dart:developer' as dev;
 
@@ -11,6 +12,8 @@ import '../../../app/services/database/database.service.dart';
 import '../../../app/services/database/store.service.dart';
 import '../../../config/diloags/smart.loader.dart';
 import '../../../config/snackbar/snackbar.dart';
+import '../../home/route/routes.dart';
+import '../route/routes.dart';
 
 class AuthController extends GetxController {
   final as = Get.find<AuthService>();
@@ -21,13 +24,12 @@ class AuthController extends GetxController {
   RxInt page = 1.obs;
 
   //  -------------------- Login Variable
-  TextEditingController fullName = TextEditingController();
+  TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  RxBool loginKeep = false.obs;
+  TextEditingController cPassword = TextEditingController();
   RxBool loginPassShow = true.obs;
-  RxBool signupTerms = false.obs;
-  RxBool signupPassShow = true.obs;
+  RxBool signupButton = false.obs;
 
   @override
   void onInit() async {
@@ -48,16 +50,12 @@ class AuthController extends GetxController {
   // ------------------------------------------ Local signup action
   Future<void> localSignUp() async {
     CSLoading.start();
-    if (fullName.text.isEmpty) {
+    if (name.text.isEmpty) {
       CSLoading.dismiss();
-      CSnackBar.errorsSnackBar(context: Get.context, title: "Field Error!!", message: "Full name can't be empty");
+      CSnackBar.errorsSnackBar(context: Get.context, title: "Field Error!!", message: "Name can't be empty");
     } else {
       validation().then((validat) {
-        if (!validat) {
-        } else if (!signupTerms.value) {
-          CSLoading.dismiss();
-          CSnackBar.errorsSnackBar(context: Get.context, title: "Field Error!!", message: "Please accept the terms and conditions.");
-        } else {
+        if (validat) {
           getSignupUsers();
         }
       });
@@ -66,45 +64,36 @@ class AuthController extends GetxController {
 
   // ------------------------------------------ Local login db query
   Future<void> getLoginUsers() async {
-    Map<String, dynamic> variables = {
-      "email": email.text,
-      "password": password.text
-    };
-    // await dbs.authMutation(loginQuery, variables).then((result) {
-    //   CSLoading.dismiss();
-    //   if (result != null) {
-    //     String createJson = jsonEncode(result);
-    //     ss.db.write('auth', createJson).then((_) {
-    //       print("---- go to home (Login) ----");
-    //       as.authCheck().then((__) {
-    //         CSnackBar.successSnackBar(context: Get.context, title: "Success!", message: "Your are login successfully");
-    //         Get.offAllNamed(HomeRoutes.home);
-    //       });
-    //     });
-    //   }
-    // });
+    Map sendData = {};
+    sendData["username"] = email.text;
+    sendData["password"] = password.text;
+    dbs.login(sendData).then((returnData) {
+      CSLoading.dismiss();
+      if (returnData != null) {
+        ss.db.write('auth', mLoginToJson(returnData)).then((_) {
+          print("---- go to home (Login) ----");
+          as.authCheck().then((__) {
+            CSnackBar.successSnackBar(context: Get.context, title: "Success!", message: "Your are login successfully");
+            Get.offAllNamed(HomeRoutes.home);
+          });
+        });
+      }
+    });
   }
 
   // ------------------------------------------ Local Signup db query
   Future<void> getSignupUsers() async {
-    Map<String, dynamic> variables = {
-      "name": fullName.text,
-      "email": email.text,
-      "password": password.text
-    };
-    // await dbs.authMutation(registerQuery, variables).then((result) {
-    //   CSLoading.dismiss();
-    //   if (result != null) {
-    //     String createJson = jsonEncode(result);
-    //     ss.db.write('auth', createJson).then((_) {
-    //       print("---- go to home (Register) ----");
-    //       as.authCheck().then((__) {
-    //         CSnackBar.successSnackBar(context: Get.context, title: "Success!", message: "Your are registration and login successfully");
-    //         Get.offAllNamed(HomeRoutes.home);
-    //       });
-    //     });
-    //   }
-    // });
+    Map sendData = {};
+    sendData["username"] = name.text;
+    sendData["email"] = email.text;
+    sendData["password"] = password.text;
+    dbs.signup(sendData).then((returnData) {
+      CSLoading.dismiss();
+      if (returnData) {
+        CSnackBar.successSnackBar(context: Get.context, title: "Success", message: "Your registration is successful");
+        Get.toNamed(AuthRoutes.login);
+      }
+    });
   }
 
   // ------------------------------------------ Field Validations
@@ -127,6 +116,14 @@ class AuthController extends GetxController {
       return false;
     } else {
       return true;
+    }
+  }
+
+  Future<void> fildChange() async {
+    if (password.text != cPassword.text) {
+      signupButton.value = false;
+    } else {
+      signupButton.value = true;
     }
   }
 

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import 'app/services/main.service.dart';
 import 'config/config.dart';
+import 'config/diloags/smart.toast.dart';
 import 'config/routings.dart';
 import 'config/themes/theme.dart';
 import 'config/translation/traslation.dart';
@@ -32,6 +34,12 @@ class InitApp extends StatelessWidget {
           initialRoute: HomeRoutes.home,
           getPages: routes,
           theme: getTheme,
+          navigatorObservers: [
+            FlutterSmartDialog.observer
+          ],
+          builder: FlutterSmartDialog.init(
+            toastBuilder: (String msg) => CustomToast(msg),
+          ),
         );
       },
     );

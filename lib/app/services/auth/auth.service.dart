@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'dart:developer' as dev;
 
 import '../../../modules/auth/models/login.model.dart';
+import '../../common/models/http.headers.dart';
 import '../database/store.service.dart';
 
 class AuthService extends GetxService {
@@ -15,6 +16,7 @@ class AuthService extends GetxService {
 
   RxBool authenticate = false.obs;
   RxBool firstOpen = false.obs;
+  Rx<HttpHeaderApi> headers = HttpHeaderApi().obs;
 
   Rx<MLogin?> auth = MLogin().obs;
 
@@ -29,15 +31,17 @@ class AuthService extends GetxService {
       dev.log(ss.db.read('auth'));
       auth.value = mLoginFromJson(ss.db.read('auth'));
       if (auth.value != null) {
+        headers.value.authorization = "${auth.value!.token}";
         authenticate.value = true;
       } else {
-        authenticate.value = true;
+        headers.value = HttpHeaderApi();
+        authenticate.value = false;
         auth.value = MLogin();
         ss.db.remove('auth');
       }
     } else {
-      // headers.value = HttpHeaderApi();
-      authenticate.value = true;
+      headers.value = HttpHeaderApi();
+      authenticate.value = false;
       auth.value = MLogin();
     }
   }
