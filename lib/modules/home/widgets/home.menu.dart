@@ -8,7 +8,7 @@ import '../../../app/services/home/home.menu.service.dart';
 
 class HomeMenu extends StatelessWidget {
   HomeMenu({Key? key}) : super(key: key);
-  final HomeMenuService menuService = HomeMenuService();
+  final menuService = Get.find<HomeMenuService>();
   @override
   Widget build(BuildContext context) {
     return Obx(() {

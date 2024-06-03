@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../modules/home/route/routes.dart';
+import '../../../modules/profile/route/routes.dart';
 
 class HomeMenuService extends GetxService {
   Future<HomeMenuService> init() async => this;
@@ -33,19 +34,14 @@ class HomeMenuService extends GetxService {
         Get.toNamed(HomeRoutes.home);
         break;
       case 1:
-        // Get.toNamed(ProfileRoutes.profileView);
+        // Get.toNamed(ProfileRoutes.profile);
         break;
       case 2:
         // Get.toNamed(CandiatesRoutes.cadidatesView);
         print(index);
         break;
       case 3:
-        // Get.toNamed(ProfileRoutes.profile);
-        // Get.toNamed(AdsRoute.ads);
-        break;
-      case 4:
-        print(index);
-
+        Get.toNamed(ProfileRoutes.profile);
         break;
     }
   }

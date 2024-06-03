@@ -1,5 +1,6 @@
 import '../modules/auth/route/routes.dart';
 import '../modules/home/route/routes.dart';
+import '../modules/profile/route/routes.dart';
 
 String appName = "Dokan";
 
@@ -8,6 +9,7 @@ String appName = "Dokan";
 List modules = [
   HomeRoutes.routes,
   AuthRoutes.routes,
+  ProfileRoutes.routes,
 ];
 
 class AppSettings {}
