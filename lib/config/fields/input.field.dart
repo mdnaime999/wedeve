@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -106,6 +104,7 @@ class InputFieldTwo extends StatelessWidget {
     return TextField(
       controller: controller,
       style: style,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         enabledBorder: InputBorder.none,
         focusedBorder: InputBorder.none,
@@ -114,6 +113,8 @@ class InputFieldTwo extends StatelessWidget {
         suffixIcon: suffixIcon,
         hintText: hintText ?? "Demo Text",
         hintStyle: hintStyle,
+        isDense: true,
+        contentPadding: EdgeInsets.all(10.sp),
       ),
       onTap: onClick,
       onChanged: onChanged,
@@ -179,6 +180,47 @@ class InputSearchField extends StatelessWidget {
   }
 }
 
+class CustomDropDown extends StatelessWidget {
+  CustomDropDown({
+    this.title,
+    required this.items,
+    required this.selectedItem,
+    required this.onCh,
+    this.backColor,
+    this.color,
+    this.shadow,
+    this.fieldtext,
+  });
+  final String? title;
+  final String? fieldtext;
+  final Color? backColor;
+  final Color? color;
+  final List<BoxShadow>? shadow;
+  final List<DropdownMenuItem<dynamic>> items;
+  final selectedItem;
+  final Function(dynamic) onCh;
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField<dynamic>(
+      dropdownColor: Color(0xFFFFFFFF),
+      isExpanded: true,
+      menuMaxHeight: 40.h,
+      iconEnabledColor: Colors.indigo.shade900,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+      ),
+      style: Theme.of(context).textTheme.bodyLarge,
+      hint: Text(
+        fieldtext != null ? fieldtext! : "Input Hint",
+        style: TextStyle(color: Colors.grey, fontSize: 13.sp),
+      ),
+      items: items,
+      value: selectedItem,
+      onChanged: onCh,
+    );
+  }
+}
+
 class FieldLable extends StatelessWidget {
   FieldLable({
     super.key,
@@ -187,48 +229,53 @@ class FieldLable extends StatelessWidget {
     this.lableStyle,
     this.require,
     this.requireColors,
+    this.requireStyle,
     this.requireText,
   });
 
   final String lable;
   final Color? lableColors;
   final TextStyle? lableStyle;
-  final Bool? require;
+  final bool? require;
   final Color? requireColors;
+  final TextStyle? requireStyle;
   final String? requireText;
 
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        children: [
-          WidgetSpan(
-            child: Text(
-              lable,
-              style: lableStyle ??
-                  GoogleFonts.inter(
-                    color: lableColors ?? Colors.black,
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.normal,
-                  ),
-            ),
-            alignment: PlaceholderAlignment.middle,
-          ),
-          if (require != null) WidgetSpan(child: SizedBox(width: 10.sp)),
-          if (require != null)
+    return Container(
+      margin: EdgeInsets.only(bottom: 5.sp),
+      child: RichText(
+        text: TextSpan(
+          children: [
             WidgetSpan(
               child: Text(
-                requireText ?? "*",
+                lable,
                 style: lableStyle ??
                     GoogleFonts.inter(
-                      color: requireColors ?? Colors.red,
-                      fontSize: 15.sp,
+                      color: lableColors ?? Colors.black,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.normal,
                     ),
               ),
               alignment: PlaceholderAlignment.middle,
             ),
-        ],
+            if (require != null && require == true) WidgetSpan(child: SizedBox(width: 5.sp)),
+            if (require != null && require == true)
+              WidgetSpan(
+                child: Text(
+                  requireText ?? "*",
+                  style: requireStyle ??
+                      GoogleFonts.inter(
+                        color: requireColors ?? Colors.red,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.normal,
+                      ),
+                ),
+                alignment: PlaceholderAlignment.middle,
+              ),
+          ],
+        ),
       ),
     );
   }

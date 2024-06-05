@@ -1,13 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:sizer/sizer.dart';
-import 'package:wedevs/app/common/class/toavater.dart';
-import 'package:wedevs/app/common/widgets/rich.widget.dart';
 
+import '../../../app/common/class/toavater.dart';
+import '../../../app/common/widgets/rich.widget.dart';
 import '../../../config/config.dart';
 import '../../home/widgets/home.menu.dart';
 import '../controllers/profile.cont.dart';
@@ -116,22 +117,37 @@ class ProfileView extends StatelessWidget {
                                 iconSize: 20.sp,
                                 iconPadding: EdgeInsets.zero,
                               ),
-                              header: Container(
-                                padding: EdgeInsets.symmetric(vertical: 15.sp),
-                                child: CustomRich(
-                                  first: Text(
-                                    item.name,
+                              header: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(vertical: 10.sp),
+                                    child: SvgPicture.asset(
+                                      item.icon,
+                                      width: 5.w,
+                                      height: 5.w,
+                                    ),
                                   ),
-                                  secend: item.id == 4
-                                      ? Text(
-                                          "(00)",
-                                          style: GoogleFonts.roboto(
-                                            color: Colors.grey,
-                                            fontSize: 12.sp,
-                                          ),
-                                        )
-                                      : null,
-                                ),
+                                  SizedBox(width: 10.sp),
+                                  Expanded(
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(vertical: 15.sp),
+                                      child: CustomRich(
+                                        first: Text(
+                                          item.name,
+                                        ),
+                                        secend: item.id == 4
+                                            ? Text(
+                                                "(00)",
+                                                style: GoogleFonts.roboto(
+                                                  color: Colors.grey,
+                                                  fontSize: 12.sp,
+                                                ),
+                                              )
+                                            : null,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               collapsed: SizedBox(),
                               expanded: item.page,
