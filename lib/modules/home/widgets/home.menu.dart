@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../app/services/auth/auth.service.dart';
 import '../../../app/services/home/home.menu.service.dart';
 
 class HomeMenu extends StatelessWidget {
@@ -42,16 +43,17 @@ class HomeMenu extends StatelessWidget {
 
 class ActionButton extends StatelessWidget {
   ActionButton({super.key});
-
+  final as = Get.find<AuthService>();
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       // backgroundColor: Colors.blue.shade700,
       clipBehavior: Clip.antiAlias,
-      onPressed: () {},
+      onPressed: as.signOut,
       child: Container(
         width: 100.w,
         height: 100.h,
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'dart:developer' as dev;
 
 import '../../../modules/auth/models/login.model.dart';
+import '../../../modules/home/route/routes.dart';
 import '../../common/models/http.headers.dart';
 import '../database/store.service.dart';
 
@@ -47,22 +48,22 @@ class AuthService extends GetxService {
   }
 
   // logout
-  // Future<void> signOut() async {
-  //   print("--- Go to login (Logout) ---");
-  //   // googleSignIn.disconnect();
-  //   if (ss.db.read('auth') != null) {
-  //     MLogin? auth = mLoginFromJson(ss.db.read('auth'));
-  //     if (auth.user != null) {
-  //       ss.db.remove('auth').then((_) {
-  //         authCheck().then((__) {
-  //           Get.offAllNamed(HomeRoutes.home);
-  //         });
-  //       });
-  //     }
-  //   } else {
-  //     authCheck().then((__) {
-  //       Get.offAllNamed(HomeRoutes.home);
-  //     });
-  //   }
-  // }
+  Future<void> signOut() async {
+    print("--- Go to login (Logout) ---");
+    // googleSignIn.disconnect();
+    if (ss.db.read('auth') != null) {
+      MLogin? auth = mLoginFromJson(ss.db.read('auth'));
+      if (auth.token != null) {
+        ss.db.remove('auth').then((_) {
+          authCheck().then((__) {
+            Get.offAllNamed(HomeRoutes.home);
+          });
+        });
+      }
+    } else {
+      authCheck().then((__) {
+        Get.offAllNamed(HomeRoutes.home);
+      });
+    }
+  }
 }

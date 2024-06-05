@@ -1,6 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart';
+
 import '../modules/auth/route/routes.dart';
 import '../modules/home/route/routes.dart';
 import '../modules/profile/route/routes.dart';
+import 'diloags/body.dialog.dart';
 
 String appName = "Dokan";
 
@@ -15,31 +21,31 @@ List modules = [
 class AppSettings {}
 
 Future<bool> appClose() async {
-  // Get.dialog(
-  //   ShowDialogWithBody(
-  //     title: "Attention please !!",
-  //     body: Container(
-  //       padding: EdgeInsets.all(10.sp),
-  //       decoration: BoxDecoration(
-  //         border: Border.all(color: appThemeColor),
-  //         borderRadius: BorderRadius.circular(10.sp),
-  //       ),
-  //       child: Text(
-  //         "Do you want to close this application ?",
-  //         style: GoogleFonts.openSans(
-  //           color: appThemeColor,
-  //           fontSize: 12.sp,
-  //           fontWeight: FontWeight.bold,
-  //         ),
-  //       ),
-  //     ),
-  //     submitText: "Exit",
-  //     submitFun: () async {
-  //       Get.back();
-  //       SystemNavigator.pop(animated: true);
-  //     },
-  //   ),
-  //   barrierDismissible: false,
-  // );
+  Get.dialog(
+    ShowDialogWithBody(
+      title: "Attention please !!",
+      body: Container(
+        padding: EdgeInsets.all(10.sp),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.sp),
+        ),
+        child: Text(
+          "Do you want to close this app ?",
+          style: GoogleFonts.openSans(
+            color: Colors.black54,
+            fontSize: 12.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      submitText: "Close",
+      cancelText: "No",
+      submitFun: () async {
+        Get.back();
+        Get.offAllNamed(HomeRoutes.home);
+      },
+    ),
+    barrierDismissible: false,
+  );
   return false;
 }
