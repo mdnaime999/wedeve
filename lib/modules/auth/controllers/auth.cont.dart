@@ -21,7 +21,7 @@ class AuthController extends GetxController {
   final dbs = Get.find<DatabaseService>();
 
   // -------------------- variavles
-  RxInt page = 1.obs;
+  RxBool loadWindow = false.obs;
 
   //  -------------------- Login Variable
   TextEditingController name = TextEditingController();
@@ -34,7 +34,10 @@ class AuthController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    Future.delayed(Duration(seconds: 2)).then((value) => FlutterNativeSplash.remove());
+    Future.delayed(Duration(seconds: 2)).then((value) {
+      loadWindow.value = true;
+      FlutterNativeSplash.remove();
+    });
   }
 
   // ------------------------------------------ Local login action

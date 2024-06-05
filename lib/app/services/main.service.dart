@@ -10,6 +10,7 @@ import 'home/home.menu.service.dart';
 
 class MainServices {
   Future index() async {
+    // WidgetsFlutterBinding.ensureInitialized();
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
     await GetStorage.init('store');
@@ -17,10 +18,9 @@ class MainServices {
   }
 
   Future<void> openServices() async {
-    Get.lazyPut<GetConnect>(() => GetConnect());
-    await Get.putAsync(() => HomeMenuService().init());
     await Get.putAsync(() => StoreService().init());
     await Get.putAsync(() => AuthService().init());
     await Get.putAsync(() => DatabaseService().init());
+    await Get.putAsync(() => HomeMenuService().init());
   }
 }

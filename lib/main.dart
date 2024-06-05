@@ -13,11 +13,11 @@ import 'modules/home/route/routes.dart';
 
 void main() async {
   await MainServices().index();
-  runApp(InitApp());
+  runApp(MyApp());
 }
 
-class InitApp extends StatelessWidget {
-  InitApp({super.key});
+class MyApp extends StatelessWidget {
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -14,11 +14,17 @@ class HomeController extends GetxController {
   RxList<MProduct> products = RxList<MProduct>([]);
   RxList<MProduct> filterProducts = RxList<MProduct>([]);
 
+  RxBool loadWindow = false.obs;
+
   @override
   void onInit() async {
+    FlutterNativeSplash.remove();
     super.onInit();
-    Future.delayed(Duration(seconds: 2)).then((value) => FlutterNativeSplash.remove());
-    getProducts();
+    Future.delayed(Duration(seconds: 2)).then((value) {
+      loadWindow.value = true;
+      getProducts();
+      FlutterNativeSplash.remove();
+    });
   }
 
   Future<void> getProducts() async {

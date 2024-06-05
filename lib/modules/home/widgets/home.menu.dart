@@ -6,6 +6,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../app/services/auth/auth.service.dart';
 import '../../../app/services/home/home.menu.service.dart';
+import '../controllers/home.cont.dart';
 
 class HomeMenu extends StatelessWidget {
   HomeMenu({Key? key}) : super(key: key);
@@ -44,26 +45,50 @@ class HomeMenu extends StatelessWidget {
 class ActionButton extends StatelessWidget {
   ActionButton({super.key});
   final as = Get.find<AuthService>();
+  final HomeController homeCont = Get.find();
+
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      // backgroundColor: Colors.blue.shade700,
-      clipBehavior: Clip.antiAlias,
-      onPressed: as.signOut,
-      child: Container(
-        width: 100.w,
-        height: 100.h,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFFFF679B), // 0% (begin)
-              Color(0xFFFF7B51), // 100% (end)
-            ],
-          ),
-        ),
-        child: Icon(Icons.search),
-      ),
-    );
+    return Obx(() {
+      return homeCont.loadWindow.value
+          ? FloatingActionButton(
+              // backgroundColor: Colors.blue.shade700,
+              clipBehavior: Clip.antiAlias,
+              onPressed: as.signOut,
+              child: Container(
+                width: 100.w,
+                height: 100.h,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFFF679B), // 0% (begin)
+                      Color(0xFFFF7B51), // 100% (end)
+                    ],
+                  ),
+                ),
+                child: Icon(Icons.search),
+              ),
+            )
+          : FloatingActionButton(
+              // backgroundColor: Colors.blue.shade700,
+              clipBehavior: Clip.antiAlias,
+              onPressed: as.signOut,
+              child: Container(
+                width: 100.w,
+                height: 100.h,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFFF679B), // 0% (begin)
+                      Color(0xFFFF7B51), // 100% (end)
+                    ],
+                  ),
+                ),
+                child: CircularProgressIndicator(),
+              ),
+            );
+    });
   }
 }
