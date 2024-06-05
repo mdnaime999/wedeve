@@ -63,13 +63,16 @@ class HomeView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomRich(
-                  first: svg.SvgPicture.asset("assets/settings-icon.svg"),
-                  secend: Text(
-                    "Filter",
-                    style: GoogleFonts.roboto(
-                      fontSize: 13.sp,
-                      color: Color(0xFF818995),
+                InkWell(
+                  onTap: homeCont.filterProduct,
+                  child: CustomRich(
+                    first: svg.SvgPicture.asset("assets/settings-icon.svg"),
+                    secend: Text(
+                      "Filter",
+                      style: GoogleFonts.roboto(
+                        fontSize: 13.sp,
+                        color: Color(0xFF818995),
+                      ),
                     ),
                   ),
                 ),

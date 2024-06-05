@@ -1,17 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 import '../../../app/services/auth/auth.service.dart';
+import '../models/filter.ceeckbox.model.dart';
 import '../models/product.model.dart';
+import '../widgets/filter.widget.dart';
 
 class HomeController extends GetxController {
   final as = Get.find<AuthService>();
 
   RxList<MProduct> products = RxList<MProduct>([]);
   RxList<MProduct> filterProducts = RxList<MProduct>([]);
-
-  RxBool newest = false.obs;
 
   @override
   void onInit() async {
@@ -30,12 +31,32 @@ class HomeController extends GetxController {
   }
 
   Future<void> filterProduct() async {
-    if (newest.value) {
-      products.sort(
-        (a, b) {
-          return b.dateCreated.compareTo(a.dateCreated);
-        },
-      );
+    Get.bottomSheet(
+      FilterSheet(),
+      backgroundColor: Colors.white,
+      barrierColor: Colors.black.withOpacity(0.1),
+    );
+  }
+
+  Future<void> filterQuery() async {
+    List<FilterCheckbox> activeFilters = filterCheckList.where((item) => item.isActive.value == true).toList();
+
+    for (FilterCheckbox activeFilter in activeFilters) {
+      if (activeFilter.id == 1) {
+        products.sort(
+          (a, b) {
+            return b.dateCreated.compareTo(a.dateCreated);
+          },
+        );
+      } else if (activeFilter.id == 2) {
+        products.sort(
+          (a, b) {
+            return a.dateCreated.compareTo(b.dateCreated);
+          },
+        );
+      }
     }
+    refresh();
+    Get.back();
   }
 }
